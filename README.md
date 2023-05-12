@@ -80,4 +80,17 @@ Again, this is assuming a root directory of /docker/containers....
 
 So modify as necessary.
 
+## cron jobs
+
+Again, this should be mostly self explanatory. I've shown how often i would run the monitor script, this means there should only really be around 1minute of downtime, give or take, depending if theres a docker image update.
+
+So edit this for the location of the keepalived monitor script.
+
+```bash
+Monitors every minute for keepalived
+*/1 * * * * /home/user/monitor.sh
+```
+
+I've also shown a short rsync command to keep containers in sync over a mounted share, so you'll want both servers to have the same mount if you use the same command as I. 
+
 Hope this helps, feel free to let me know if there are any issues.
