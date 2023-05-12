@@ -1,6 +1,8 @@
 # docker-lxd-keepalived
 
-This is just a short summary of how this _mostly straight forward_ setup works. There are plenty other ways to configure, this probably the easiest...
+This is just a short summary of how this _mostly straight forward_ setup works. There are plenty other ways to configure, this probably the easiest.
+
+Also, this would work better if you are in an LXD cluster, which is out of scope for this, but will add a short section about it further down.
 
 ## Setting up an LXD container to use with docker
 
@@ -85,11 +87,13 @@ Add network share - if you use this feature as per cron job below, adjust as nec
 lxc config device add fast-ubuntu network-share disk source=/mnt/shares/ path=/mnt/docker
 ```
 
-You'll need two of these containers to run keepalived, so...
+You'll need two of these containers to run keepalived and since its high availability and LXD clusters...
 
 ```bash
-lxc copy fast-ubuntu fast-ubuntu-slave
+lxc copy fast-ubuntu fast-ubuntu-slave --target server-name
 ```
+
+If you're just testing on a local machine, remove the --target server-name part of the above command
 
 ## monitor.sh
 
