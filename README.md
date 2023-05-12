@@ -2,6 +2,79 @@
 
 This is just a short summary of how this works...
 
+## Setting up an LXD container to use with docker
+
+Docker cant run on zfs
+```bash
+lxc storage list # you'll see storage pools here.
+```
+
+Create a pool called docker with btrfs
+```bash
+lxc storage create docker btrfs
+```
+
+Launch an ubuntu container called fast-ubuntu
+```bash
+lxc launch images:ubuntu/22.04 fast-ubuntu
+```
+
+Create storafe vlume for fast-ubuntu
+```bash
+lxc storage volume create docker fast-ubuntu
+```
+
+Add storage disk from pool docker created earlier to fast-ubuntu, from /var/lib/docker
+```bash
+lxc config device add fast-ubuntu docker disk pool=docker source=fast-ubuntu path=/var/lib/docker
+```
+
+Poke some holes so docker can run inside the LXD containers
+```bash
+lxc config set fast-ubuntu security.nesting=true security.syscalls.intercept.mknod=true security.syscalls.intercept.setxattr=true
+```
+
+Restart container
+```bash
+lxc restart fast-ubuntu
+```
+
+Enter container and run bash
+```bash
+lxc exec fast-ubuntu bash
+```
+
+Install docker (Worth checking dockers website in case this procedure changes)
+```bash
+apt update && apt upgrade -y
+
+sudo apt-get update
+sudo apt-get install \
+   ca-certificates \
+   curl \
+   gnupg \
+   lsb-release
+
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
+```
+
+Test docker install
+```bash
+docker run -it ubuntu bash # run exit or ctrl+D to exit - you'll want to remove this ubuntu image/container probably.
+```
+
+List containers and grab ip.
+```bash
+lxc list fast-ubuntu # for ip
+```
 ## monitor.sh
 
 This is used by keepalived to keep track of a service on your network... in my example, i've used portainer as an example
