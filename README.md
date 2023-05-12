@@ -1,6 +1,6 @@
 # docker-lxd-keepalived
 
-This is just a short summary of how this works...
+This is just a short summary of how this _mostly straight forward_ setup works. There are plenty other ways to configure, this probably the easiest...
 
 ## Setting up an LXD container to use with docker
 
