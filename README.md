@@ -27,7 +27,7 @@ cont_arr[4]='watchtower'
 ```
 
 Lastly for this script, the directory of /docker(/container) is assumed for all your docker-compose files.
-So you'll want to modify as necessary. If you have docker-compose files scattered everywhere, this script probably won't work.
+So you'll want to modify as necessary. If you have docker-compose files scattered everywhere, this script won't work.
 
 ```bash
 # root docker directory where containers located, following a pattern like so...
@@ -46,6 +46,31 @@ All that really needs modified here is this line, and ensure same virtual ip as 
 ```bash
   10.10.200.69 # EDIT to suit subnet
 ```
+
+Lastly, you'll want to enable and start keepalived
+
+```bash
+systemctl enable --now keepalived
+```
+
+If you run 
+
+```bash
+systemctl status keepalived
+```
+The master will show...
+
+```
+Entering MASTER STATE
+```
+The slave will show...
+
+```
+Entering BACKUP STATE
+(VI_2) Changing effective priority from 80 to 81
+```
+
+Or something along those lones, depending probably whether the slave was a master to begin with. The main takeaway is that one will be in master state, and the other in backup state.
 
 ## docker-update.sh
 
