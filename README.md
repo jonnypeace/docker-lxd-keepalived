@@ -44,7 +44,7 @@ Enter container and run bash
 lxc exec fast-ubuntu bash
 ```
 
-Install docker (Worth checking dockers website in case this procedure changes)
+Install docker (Worth checking dockers website in case this procedure changes) and install docker-compose & keepalived
 ```bash
 apt update && apt upgrade -y
 
@@ -63,7 +63,7 @@ echo \
 $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose keepalived
 ```
 
 Test docker install
@@ -85,6 +85,11 @@ Add network share - if you use this feature as per cron job below, adjust as nec
 lxc config device add fast-ubuntu network-share disk source=/mnt/shares/ path=/mnt/docker
 ```
 
+You'll need two of these containers to run keepalived, so...
+
+```bash
+lxc copy fast-ubuntu fast-ubuntu-slave
+```
 
 ## monitor.sh
 
