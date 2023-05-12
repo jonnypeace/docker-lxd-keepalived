@@ -1,0 +1,5 @@
+Monitors every minute for keepalived
+*/1 * * * * /home/user/monitor.sh
+
+synchronizes between mounted network shares every hour
+* */1 * * * rsync -tpurv --progress /docker/vaultwarden/ /mnt/docker/vaultwarden/ && rsync -tpurv --progress /mnt/docker/vaultwarden/ /docker/vaultwarden/
