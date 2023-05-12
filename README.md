@@ -4,6 +4,8 @@ This is just a short summary of how this _mostly straight forward_ setup works. 
 
 Also, this would work better if you are in an LXD cluster, which is out of scope for this, but will add a short section about it further down.
 
+Also also, instead of a network share to synchronize the containers, you could instead use microceph with LXD (microcloud)
+
 ## Setting up an LXD container to use with docker
 
 Docker cant run on zfs
