@@ -19,12 +19,12 @@ Launch an ubuntu container called fast-ubuntu
 lxc launch images:ubuntu/22.04 fast-ubuntu
 ```
 
-Create storafe vlume for fast-ubuntu
+Create storage volume for fast-ubuntu
 ```bash
 lxc storage volume create docker fast-ubuntu
 ```
 
-Add storage disk from pool docker created earlier to fast-ubuntu, from /var/lib/docker
+Add storage from storage pool docker created earlier to fast-ubuntu, and use it for /var/lib/docker
 ```bash
 lxc config device add fast-ubuntu docker disk pool=docker source=fast-ubuntu path=/var/lib/docker
 ```
@@ -75,6 +75,17 @@ List containers and grab ip.
 ```bash
 lxc list fast-ubuntu # for ip
 ```
+
+Add network share - if you use this feature as per cron job below, adjust as necessary for both
+```bash
+# add network shares mounted on host
+# Source is the host mount
+# path is the mount inside the lxd container
+# network-share is the name of the device
+lxc config device add fast-ubuntu network-share disk source=/mnt/shares/ path=/mnt/docker
+```
+
+
 ## monitor.sh
 
 This is used by keepalived to keep track of a service on your network... in my example, i've used portainer as an example
